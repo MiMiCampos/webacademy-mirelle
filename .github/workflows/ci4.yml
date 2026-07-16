@@ -1,0 +1,40 @@
+# Atividade 02.4 - Validando o repositório
+
+# Criar um pipeline que valide a organização mínima do projeto.
+# O workflow deverá verificar se existem:
+# README.md
+# LICENSE
+# .gitignore
+# Caso algum arquivo não exista, o workflow deverá falhar.
+# Faça um teste removendo temporariamente um dos arquivos e observe a falha do workflow.
+# Depois restaure o arquivo e execute novamente. 
+
+name: Quarto Workflow
+
+on:
+
+  push:
+
+jobs:
+  quarto-job: 
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Quarto passo"
+    - name: Checkout
+      uses: actions/checkout@v5
+    - name: Validação do repositório
+      run: |
+        if [ ! -f README.md ]; then
+          echo "Arquivo README.md não encontrado!"
+          exit 1
+        fi
+        if [ ! -f LICENSE ]; then
+          echo "Arquivo LICENSE não encontrado!"
+          exit 1
+        fi
+        if [ ! -f .gitignore ]; then
+          echo "Arquivo .gitignore não encontrado!"
+          exit 1
+        fi
+        echo "Validação concluída com sucesso!"
+        
