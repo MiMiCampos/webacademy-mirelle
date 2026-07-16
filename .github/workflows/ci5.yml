@@ -1,0 +1,47 @@
+# Atividade 02.5 - Criando múltiplos Jobs
+name: Quinto Workflow
+
+on:
+
+  push:
+
+jobs:
+  quinto-job: 
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Quinto passo"
+    - name: Checkout
+      uses: actions/checkout@v5
+    - name: Data e hora da execução
+      run: date
+    - name: Versão do Git
+      run: git --version
+
+  sexto-job: 
+    needs: quinto-job
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Sexto passo"
+    - name: Checkout
+      uses: actions/checkout@v5
+    - name: Verificar README.md
+      run: |
+        if [ ! -f README.md ]; then
+          echo "Arquivo README.md não encontrado!"
+          exit 1
+        fi
+        echo "Arquivo README.md encontrado!"
+    - name: Verificar LICENSE
+      run: |
+        if [ ! -f LICENSE ]; then
+          echo "Arquivo LICENSE não encontrado!"
+          exit 1
+        fi
+        echo "Arquivo LICENSE encontrado!"
+    - name: Verificar .gitignore
+      run: |
+        if [ ! -f .gitignore ]; then
+          echo "Arquivo .gitignore não encontrado!"
+          exit 1
+        fi
+        echo "Arquivo .gitignore encontrado!"
